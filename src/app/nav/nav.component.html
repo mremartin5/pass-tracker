@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col form-group">
+        <button class="button" class="buttonAddPlayer" (click)="addPlayer()" [disabled]="toggleAddPlayer">ADD PLAYER</button>
+    </div>
+</div>
+<div class="row" *ngIf="toggleAddPlayer">
+    <div class="col-8 form-group">
+        <input type="text" class="inputPlayer" #newPlayer placeholder="Type In Player"/>
+    </div>
+    <div class="col-4 form-group" (click)="addPlayerToArray(newPlayer.value)">
+        <button class="button" class="buttonAdd" >ADD</button>
+    </div>    
+</div>
+<div class="row" *ngIf="players.length">
+    <div class="col teamAvg">
+        <h4>Team Passing Avg: {{ teamAvg | number : '1.0-2'}}</h4>
+    </div>
+</div>
+<app-player *ngFor="let player of players; let i = index" [player]="player" (updatePlayersArray)="updatePlayers(player)"></app-player>

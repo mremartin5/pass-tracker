@@ -1,0 +1,17 @@
+<div class="row playerRow">
+    <div class="col-4">
+        <span (click)="playerDetails()">
+            <fa-icon icon="chevron-right" *ngIf="!viewDetails">
+            </fa-icon><fa-icon icon="chevron-down" *ngIf="viewDetails"></fa-icon>
+            {{ player.name }}
+        </span>
+    </div>
+    <div class="col"><button (click)="update(0)">0</button></div>
+    <div class="col"><button (click)="update(1)">1</button></div>
+    <div class="col"><button (click)="update(2)">2</button></div>
+    <div class="col"><button (click)="update(3)">3</button></div>
+    <div class="col avg">{{ player.avg | number : '1.0-2' }}</div>
+</div>
+<div class="row playerDetails" *ngIf="viewDetails">
+    {{ player.scores | json }}
+</div>
