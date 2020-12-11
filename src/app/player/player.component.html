@@ -1,9 +1,9 @@
 <div class="row playerRow">
-    <div class="col-4">
+    <div class="col-6">
         <span (click)="playerDetails()">
             <fa-icon icon="chevron-right" *ngIf="!viewDetails">
             </fa-icon><fa-icon icon="chevron-down" *ngIf="viewDetails"></fa-icon>
-            {{ player.name }}
+            {{ player.name }} - {{ player.position }}
         </span>
     </div>
     <div class="col"><button (click)="update(0)">0</button></div>

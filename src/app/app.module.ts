@@ -9,13 +9,15 @@ import { PlayerComponent } from './player/player.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     HeaderComponent,
-    PlayerComponent
+    PlayerComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

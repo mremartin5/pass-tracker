@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+// import { Model } from '../model/model';
 
 @Component({
   selector: 'app-nav',
@@ -12,19 +13,40 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  players: any[] = [];
+  players: Player[] = [];
+  selectPositionTitle: string = 'Position';
+  positions: any[] = [ 'S', 'MB', 'OH', 'OPP', 'DS', 'L' ];
+  alertNoPosition: boolean = false;
   toggleAddPlayer: boolean = false;
   teamAvg: number | undefined;
 
-  addPlayer() {
-    this.toggleAddPlayer = true;
+  selectedPosition(p: string) {
+    this.selectPositionTitle = p;
+    if ( p !== 'Position' ) {
+      this.alertNoPosition = false;
+    }
   }
 
-  addPlayerToArray(name: string) {
-    this.players.push( { 'name': name, 'scores': [], 'avg': null } );
-    if ( this.players.length ) {
-      this.toggleAddPlayer = false;
+  closeAlertNoPosition() {
+    this.alertNoPosition = false;
+  }
+
+  addPlayer() {
+    this.toggleAddPlayer = true;
+    this.selectPositionTitle = 'Position';
+  }
+
+  addPlayerToArray(name: string, position: string) {
+    if ( position === 'Position' ) {
+      console.log('select position');
+      this.alertNoPosition = true;
+    } else {
+      this.players.push( { 'name': name, 'position': position, 'scores': [], 'avg': null } );
+      if ( this.players.length ) {
+        this.toggleAddPlayer = false;
+      }
     }
+    
   }
 
   updatePlayers(player: any) {
@@ -37,4 +59,11 @@ export class NavComponent implements OnInit {
     this.teamAvg = (totalPoints / totalPasses);
   }
 
+}
+
+export interface Player {
+  name: string;
+  position: string;
+  scores: number[];
+  avg: any
 }

@@ -1,3 +1,7 @@
+.navWrapper {
+    margin: 0;
+    padding: 0 15px;
+}
 .buttonAddPlayer {
     height: 30px;
     color: #fff;
@@ -7,9 +11,18 @@
 .inputPlayer {
     padding: 0 0 0 5px;
     height: 30px;
-    border-radius: 4px 0 0 4px;
     border: 1px solid #666;
     border-right: none;
+    border-radius: 4px 0 0 4px;
+}
+.dropdown {
+    width: 100%;
+}
+.dropDownPostions {
+    height: 30px;
+    border: 1px solid #666;
+    border-right: none;
+    border-radius: 0;
 }
 .buttonAdd {
     height: 30px;
@@ -24,3 +37,12 @@
         font-family: 'IndustryBI';
     }
 }
+// .alert {
+//     margin: 0;
+//     padding: 8px;
+//     font-size: 14px;
+//     font-family: 'IndustryBI';
+// }
+// .alert-dismissible .close {
+//     padding: 6px !important;
+// }
