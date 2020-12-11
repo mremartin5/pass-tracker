@@ -3,32 +3,41 @@
     height: 40px;
     line-height: 40px;
     background: #efefef;
-    .col-6 {
-        padding: 0 0 0 5px;
+    .name {
+        padding: 0 5px;
         height: 40px;
         line-height: 42px;
         border: 1px solid #001689;
+        border-right: none;
         border-radius: 4px 0 0 4px;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
         fa-icon {
             font-size: 10px;
         }
     }
-    .col {
+    .number {
         padding: 0;
         height: 40px;
         text-align: center;
+        border: 1px solid #001689;
+        border-right: none;
         button {
-            height: 40px;
+            height: 38px;
             width: 100%;
-            border: 1px solid #001689;
+            border: none;
             outline: none;
         }
     }
     .avg {
+        padding: 0;
+        height: 40px;
+        text-align: center;
         font-weight: bold;
         color: #fff;
         background: #001689;
-        line-height: 42px;
+        border: 1px solid #001689;
         border-radius: 0 4px 4px 0;
     }
 }

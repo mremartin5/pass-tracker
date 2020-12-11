@@ -1,8 +1,7 @@
-.wrapper {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-}
 .content {
-    flex: 1;
+    min-height: 100%;
+    margin: 0 auto -75px;
+}
+.push {
+  height: 75px;
 }
