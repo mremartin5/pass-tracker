@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class PlayerComponent implements OnInit {
 
   @Input() player: any;
-  @Output() updatePlayersArray: EventEmitter<[any]> = new EventEmitter<any>();
+  @Output() updateScores = new EventEmitter<{name: string, score: number}>();
   viewDetails: boolean = false;
 
   constructor() { }
@@ -23,10 +23,10 @@ export class PlayerComponent implements OnInit {
     return avg;
   }
 
-  update(score: any) {
-    this.player.scores.push( parseInt(score) );
+  update(player: string, score: number) {
+    this.player.scores.push( score );
     this.player.avg = this.updateAvg(this.player.scores);
-    this.updatePlayersArray.emit(this.player);
+    this.updateScores.emit( {'name': player, 'score': score} );
   }
 
   playerDetails() {

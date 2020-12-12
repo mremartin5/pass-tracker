@@ -6,10 +6,10 @@
             {{ player.name }} - {{ player.position }}
         </span>
     </div>
-    <div class="col number"><button (click)="update(0)">0</button></div>
-    <div class="col number"><button (click)="update(1)">1</button></div>
-    <div class="col number"><button (click)="update(2)">2</button></div>
-    <div class="col number"><button (click)="update(3)">3</button></div>
+    <div class="col number"><button (click)="update(player.name, 0)">0</button></div>
+    <div class="col number"><button (click)="update(player.name, 1)">1</button></div>
+    <div class="col number"><button (click)="update(player.name, 2)">2</button></div>
+    <div class="col number"><button (click)="update(player.name, 3)">3</button></div>
     <div class="col avg">{{ player.avg | number : '1.0-2' }}</div>
 </div>
 <div class="row playerDetails" *ngIf="viewDetails">

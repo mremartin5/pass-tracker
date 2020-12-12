@@ -26,5 +26,5 @@
             <h4>Team Passing Avg: {{ teamAvg | number : '1.0-2'}}</h4>
         </div>
     </div>
-    <app-player *ngFor="let player of players; let i = index" [player]="player" (updatePlayersArray)="updatePlayers(player)"></app-player>
+    <app-player *ngFor="let player of players; let i = index" [player]="player" (updateScores)="updateScores($event)"></app-player>
 </div>

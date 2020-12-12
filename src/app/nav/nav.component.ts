@@ -14,6 +14,8 @@ export class NavComponent implements OnInit {
   }
 
   players: Player[] = [];
+  scores: Score[] = [];
+  totalScores: number = 0;
   selectPositionTitle: string = 'Position';
   positions: any[] = [ 'S', 'MB', 'OH', 'OPP', 'DS', 'L' ];
   alertNoPosition: boolean = false;
@@ -45,18 +47,13 @@ export class NavComponent implements OnInit {
       if ( this.players.length ) {
         this.toggleAddPlayer = false;
       }
-    }
-    
+    } 
   }
 
-  updatePlayers(player: any) {
-    let totalPoints: number = 0;
-    let totalPasses: number = 0;
-    this.players.forEach( (p) => {
-      totalPasses = totalPasses + p.scores.length;
-      totalPoints = totalPoints + p.scores.reduce( (a: number, b: number) => a + b, 0);
-    });
-    this.teamAvg = (totalPoints / totalPasses);
+  updateScores(score: any) {
+    this.scores.push( score );
+    this.totalScores = this.totalScores + score.score;
+    this.teamAvg = this.totalScores / this.scores.length;
   }
 
 }
@@ -66,4 +63,9 @@ export interface Player {
   position: string;
   scores: number[];
   avg: any
+}
+
+export interface Score {
+  name: string;
+  score: number;
 }
