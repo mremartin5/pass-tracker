@@ -16,38 +16,57 @@ export class NavComponent implements OnInit {
   players: Player[] = [];
   scores: Score[] = [];
   totalScores: number = 0;
-  selectPositionTitle: string = 'Position';
+  newPlayer: string = '';
+  selectPosition: string = 'Position';
   positions: any[] = [ 'S', 'MB', 'OH', 'OPP', 'DS', 'L' ];
-  alertNoPosition: boolean = false;
+  alertAddPlayer: boolean = false;
+  alertMsg: string = '';
   toggleAddPlayer: boolean = false;
   teamAvg: number | undefined;
 
+  addPlayer() {
+    this.toggleAddPlayer = true;
+    this.selectPosition = 'Position';
+  }
+
   selectedPosition(p: string) {
-    this.selectPositionTitle = p;
+    this.selectPosition = p;
     if ( p !== 'Position' ) {
-      this.alertNoPosition = false;
+      this.alertMsg = '';
+      this.alertAddPlayer = false;
     }
   }
 
-  closeAlertNoPosition() {
-    this.alertNoPosition = false;
+  closeaAlertAddPlayer() {
+    this.alertAddPlayer = false;
   }
 
-  addPlayer() {
-    this.toggleAddPlayer = true;
-    this.selectPositionTitle = 'Position';
+  onFocusPlayerInput() {
+    this.alertMsg = '';
+    this.alertAddPlayer = false;
   }
 
   addPlayerToArray(name: string, position: string) {
-    if ( position === 'Position' ) {
-      console.log('select position');
-      this.alertNoPosition = true;
+    if ( name === '' || !name ) {
+      this.alertMsg = 'please add player name';
+      this.alertAddPlayer = true;
+    } else if ( position === 'Position' ) {
+      this.alertMsg = 'please select position';
+      this.alertAddPlayer = true;
     } else {
       this.players.push( { 'name': name, 'position': position, 'scores': [], 'avg': null } );
       if ( this.players.length ) {
         this.toggleAddPlayer = false;
       }
-    } 
+    }
+    this.newPlayer = '';
+  }
+
+  updateAvg(scores: any) {
+    let length = scores.length;
+    let sum = scores.reduce( (total: number, current: number) => total + Number(current), 0 );
+    let avg = sum / length;
+    return avg;
   }
 
   updateScores(score: any) {
@@ -56,6 +75,20 @@ export class NavComponent implements OnInit {
     this.teamAvg = this.totalScores / this.scores.length;
   }
 
+  undoPass() {
+    // remove last score object, set it as variable
+    let lastPlay: any = this.scores.pop();
+    let lastScore: number = lastPlay.score;
+    let lastPlayer: string = lastPlay.name;
+    // remove last player score in their array, update avg
+    let lastPlayerScore: any = this.players.find( (p) => p.name === lastPlayer );
+    lastPlayerScore.scores.pop();
+    lastPlayerScore.avg = this.updateAvg(lastPlayerScore.scores);
+    // subtract totalScore with score, update totalScores
+    this.totalScores = this.totalScores - lastScore;
+    this.teamAvg = this.totalScores / this.scores.length;
+  }
+  
 }
 
 export interface Player {

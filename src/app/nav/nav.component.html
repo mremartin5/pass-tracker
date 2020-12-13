@@ -6,25 +6,28 @@
     </div>
     <div class="row" *ngIf="toggleAddPlayer">
         <div class="col-7 form-group">
-            <input type="text" class="inputPlayer" #newPlayer placeholder="Type In Player"/>
+            <input type="text" class="inputPlayer" [(ngModel)]="newPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
         </div>
         <div class="col-3 form-group">
             <div ngbDropdown class="d-inline-block">
-                <button class="dropDownPostions" #newPosition ngbDropdownToggle>{{ selectPositionTitle }}</button>
+                <button class="dropDownPostions" ngbDropdownToggle>{{ selectPosition }}</button>
                 <div ngbDropdownMenu aria-labelledby="newPosition">
                   <button ngbDropdownItem *ngFor="let p of positions" value="{{ p }}" (click)="selectedPosition(p)">{{ p }}</button>
                 </div>
               </div>
         </div> 
-        <div class="col-2 form-group" (click)="addPlayerToArray(newPlayer.value, selectPositionTitle)">
+        <div class="col-2 form-group" (click)="addPlayerToArray(newPlayer, selectPosition)">
             <button class="button" class="buttonAdd">ADD</button>
         </div>    
     </div>
-    <ngb-alert *ngIf="alertNoPosition" type="danger" (closed)="closeAlertNoPosition()">Please select position</ngb-alert>
+    <ngb-alert *ngIf="alertAddPlayer" type="danger" (closed)="closeaAlertAddPlayer()">{{ alertMsg }}</ngb-alert>
     <div class="row" *ngIf="players.length">
         <div class="col teamAvg">
-            <h4>Team Passing Avg: {{ teamAvg | number : '1.0-2'}}</h4>
+            <h4>Team Avg: {{ teamAvg | number : '1.0-2'}}</h4>
+        </div>
+        <div class="col undo">
+            <button *ngIf="scores.length" (click)="undoPass()"><fa-icon icon="undo"></fa-icon></button>
         </div>
     </div>
-    <app-player *ngFor="let player of players; let i = index" [player]="player" (updateScores)="updateScores($event)"></app-player>
+    <app-player *ngFor="let player of players; let i = index" [player]="player" [updateAvg]="updateAvg" (updateScores)="updateScores($event)"></app-player>
 </div>
