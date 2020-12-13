@@ -13,16 +13,21 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  positions: any[] = [ 'S', 'MB', 'OH', 'OPP', 'DS', 'L' ];
   players: Player[] = [];
   scores: Score[] = [];
+
   totalScores: number = 0;
+  teamAvg: number | undefined;
   newPlayer: string = '';
   selectPosition: string = 'Position';
-  positions: any[] = [ 'S', 'MB', 'OH', 'OPP', 'DS', 'L' ];
-  alertAddPlayer: boolean = false;
   alertMsg: string = '';
+  timeStamp: number | undefined;
+
+  alertAddPlayer: boolean = false;
+  alertConfirmDone: boolean = false;
   toggleAddPlayer: boolean = false;
-  teamAvg: number | undefined;
+  displayFinalOutput: boolean = false;
 
   addPlayer() {
     this.toggleAddPlayer = true;
@@ -37,8 +42,20 @@ export class NavComponent implements OnInit {
     }
   }
 
-  closeaAlertAddPlayer() {
-    this.alertAddPlayer = false;
+  closeAlert(type: string) {
+    switch (type) {
+      case 'player': {
+        this.alertAddPlayer = false;
+        break;
+      }
+      case 'done': {
+        this.alertConfirmDone = false;
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 
   onFocusPlayerInput() {
@@ -88,6 +105,51 @@ export class NavComponent implements OnInit {
     this.totalScores = this.totalScores - lastScore;
     this.teamAvg = this.totalScores / this.scores.length;
   }
+
+  doneScoring() {
+    this.alertMsg = 'all done?';
+    this.alertConfirmDone = true;
+  }
+
+  isDone(done: boolean) {
+    if (done) {
+      let now: number = Date.now();
+      this.timeStamp = now;
+      this.displayFinalOutput = true;
+    }
+    this.alertConfirmDone = false;
+  }
+
+  copyFinalScores() {
+    let textarea = document.createElement('textarea') as HTMLTextAreaElement;
+    textarea.id = 'temp_element';
+    textarea.style.height = '';
+    document.body.appendChild(textarea);
+    let allScores: any = document.getElementById('finalScores')?.innerText;
+    textarea.value = allScores;
+    let selector: any = document.querySelector('#temp_element');
+    selector.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+  }
+
+  createNewScores() {
+    // TODO should be a new class Round
+    this.players = [];
+    this.scores = [];
+
+    this.totalScores = 0;
+    this.teamAvg = undefined;
+    this.newPlayer = '';
+    this.selectPosition = 'Position';
+    this.alertMsg = '';
+    this.timeStamp = undefined;
+
+    this.alertAddPlayer = false;
+    this.alertConfirmDone = false;
+    this.toggleAddPlayer = false;
+    this.displayFinalOutput = false;
+  }
   
 }
 
@@ -101,4 +163,21 @@ export interface Player {
 export interface Score {
   name: string;
   score: number;
+}
+
+export interface Round {
+  players: Player[];
+  scores: Score[];
+
+  totalScores: number;
+  teamAvg: number | undefined;
+  newPlayer: string;
+  selectPosition: string;
+  alertMsg: string;
+  timeStamp: number | undefined;
+
+  alertAddPlayer: boolean;
+  alertConfirmDone: boolean;
+  toggleAddPlayer: boolean;
+  displayFinalOutput: boolean;
 }
