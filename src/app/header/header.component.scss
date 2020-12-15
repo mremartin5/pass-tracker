@@ -1,7 +1,8 @@
 .header {
-    margin: 15px 15px 0 15px;
-    padding: 0;
+    margin: 0 15px;
+    padding: 15px 0 0 0;
     background: url('/assets/images/logo_vava_mark.png') no-repeat;
+    background-position: 0, 15px;
     background-size: 24px;
     border-bottom: 1px solid #ddd;
     h1 {

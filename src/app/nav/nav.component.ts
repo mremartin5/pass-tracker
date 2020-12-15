@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 // import { Model } from '../model/model';
 
 @Component({
@@ -8,12 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
   positions: any[] = [ 'S', 'MB', 'OH', 'OPP', 'DS', 'L' ];
+  timeStamp: number | undefined;
+  duplicatePlayers: any[] = [];
+  showCopied: boolean = false;
+  
   players: Player[] = [];
   scores: Score[] = [];
 
@@ -22,16 +21,52 @@ export class NavComponent implements OnInit {
   newPlayer: string = '';
   selectPosition: string = 'Position';
   alertMsg: string = '';
-  timeStamp: number | undefined;
 
+  startNewRound: boolean = true;
+  enterInfo: boolean = false;
+  beginRound: boolean = false;
   alertAddPlayer: boolean = false;
   alertConfirmDone: boolean = false;
-  toggleAddPlayer: boolean = false;
   displayFinalOutput: boolean = false;
 
-  addPlayer() {
-    this.toggleAddPlayer = true;
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  createNewRound(players: boolean) {
+    if (players) {
+      this.players = this.duplicatePlayers;
+      this.players.forEach( (p) => {
+        p.scores = [];
+        p.avg = null;
+      });
+    } else {
+      this.players = [];
+    }
+    
+    this.scores = [];
+
+    this.totalScores = 0;
+    this.teamAvg = undefined;
+    this.newPlayer = '';
     this.selectPosition = 'Position';
+    this.alertMsg = '';
+
+    this.startNewRound = false;
+    this.enterInfo = true;
+    this.beginRound = false;
+    this.alertAddPlayer = false;
+    this.alertConfirmDone = false;
+    this.displayFinalOutput = false;
+  }
+
+  addPlayer() {
+    this.newPlayer = '';
+    this.selectPosition = 'Position';
+  }
+
+  removePlayer(i: number) {
+    this.players.splice(i, 1);
   }
 
   selectedPosition(p: string) {
@@ -64,7 +99,10 @@ export class NavComponent implements OnInit {
   }
 
   addPlayerToArray(name: string, position: string) {
-    if ( name === '' || !name ) {
+    if ( name === '' || !name && position === 'Position' ) {
+      this.alertMsg = 'please add player name and position';
+      this.alertAddPlayer = true;
+    } else if ( name === '' || !name ) {
       this.alertMsg = 'please add player name';
       this.alertAddPlayer = true;
     } else if ( position === 'Position' ) {
@@ -72,11 +110,15 @@ export class NavComponent implements OnInit {
       this.alertAddPlayer = true;
     } else {
       this.players.push( { 'name': name, 'position': position, 'scores': [], 'avg': null } );
-      if ( this.players.length ) {
-        this.toggleAddPlayer = false;
-      }
+      this.newPlayer = '';
+      this.selectPosition = 'Position';
     }
-    this.newPlayer = '';
+  }
+
+  startTracking() {
+    this.enterInfo = false;
+    this.beginRound = true;
+    this.duplicatePlayers = [...this.players];
   }
 
   updateAvg(scores: any) {
@@ -131,24 +173,7 @@ export class NavComponent implements OnInit {
     selector.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-  }
-
-  createNewScores() {
-    // TODO should be a new class Round
-    this.players = [];
-    this.scores = [];
-
-    this.totalScores = 0;
-    this.teamAvg = undefined;
-    this.newPlayer = '';
-    this.selectPosition = 'Position';
-    this.alertMsg = '';
-    this.timeStamp = undefined;
-
-    this.alertAddPlayer = false;
-    this.alertConfirmDone = false;
-    this.toggleAddPlayer = false;
-    this.displayFinalOutput = false;
+    this.showCopied = true;
   }
   
 }
@@ -163,21 +188,4 @@ export interface Player {
 export interface Score {
   name: string;
   score: number;
-}
-
-export interface Round {
-  players: Player[];
-  scores: Score[];
-
-  totalScores: number;
-  teamAvg: number | undefined;
-  newPlayer: string;
-  selectPosition: string;
-  alertMsg: string;
-  timeStamp: number | undefined;
-
-  alertAddPlayer: boolean;
-  alertConfirmDone: boolean;
-  toggleAddPlayer: boolean;
-  displayFinalOutput: boolean;
 }

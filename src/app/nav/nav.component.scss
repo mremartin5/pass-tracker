@@ -2,6 +2,30 @@
     margin: 0;
     padding: 0 15px;
 }
+.colHd {
+    padding: 0 5px;
+    font-size: 14px;
+    font-weight: 200;
+    font-family: 'IndustryBI';
+}
+.playerInfo {
+    padding: 5px;
+    background: #eee;
+    border-radius: 4px;
+    border: 1px solid #666;
+    .col {
+        padding: 0;
+        fa-icon {
+            float: right;
+        }
+    }
+}
+.buttonBlue {
+    height: 30px;
+    color: #fff;
+    background: #001689;
+    border: none;
+}
 .buttonOrange {
     height: 30px;
     color: #fff;
@@ -110,4 +134,18 @@
         background: rgba(255,255,255,.75);
         z-index: 100;
     }
+}
+.copied {
+    margin: 0 10px 0 0;
+    font-size: 12px;
+    font-family: 'IndustryBI';
+    color: #ff5100;
+    line-height: 24px;
+    float: right;
+}
+.btnLeft {
+    padding: 0 5px 0 0;
+}
+.btnRight {
+    padding: 0 0 0 5px;
 }
