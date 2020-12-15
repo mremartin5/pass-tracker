@@ -11,6 +11,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FooterComponent } from './footer/footer.component';
+import { NewPlayerComponent } from './new-player/new-player.component';
+
+import {APP_BASE_HREF} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,8 @@ import { FooterComponent } from './footer/footer.component';
     NavComponent,
     HeaderComponent,
     PlayerComponent,
-    FooterComponent
+    FooterComponent,
+    NewPlayerComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,9 @@ import { FooterComponent } from './footer/footer.component';
     FormsModule,
     FontAwesomeModule
   ],
-  providers: [],
+  providers: [
+    {provide: APP_BASE_HREF, useValue: '/pass-tracker/'}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

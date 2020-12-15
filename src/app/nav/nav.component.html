@@ -1,103 +1,52 @@
-<div class="navWrapper">
-
-    <div *ngIf="startNewRound" class="row">
-        <div class="col form-group">
-            <button class="button buttonBlue" (click)="createNewRound(false)">CREATE NEW ROUND</button>
+<ngb-alert *ngIf="alertConfirmDone" [dismissible]="false" type="info" class="alertMsg">
+    <div class="closeAlert" (click)="closeAlert('done')">
+        <fa-icon icon="times"></fa-icon>
+    </div>
+    {{ alertMsg }}
+    <span (click)="isDone(false)">NO</span>
+    <span (click)="isDone(true)">YES</span>
+</ngb-alert>
+<div *ngIf="displayFinalOutput" class="finalOutput">
+    <div class="row actions">
+        <div class="col">
+            FINAL SCORES
+        </div>
+        <div class="col">
+            <fa-icon icon="copy" (click)="copyFinalScores()"></fa-icon>
+            <span *ngIf="showCopied" class="copied">COPIED</span>
         </div>
     </div>
-    <div *ngIf="enterInfo">
-        <ngb-alert *ngIf="alertAddPlayer" [dismissible]="false" type="danger" class="alertMsg">
-            <div class="closeAlert" (click)="closeAlert('player')">
-                <fa-icon icon="times"></fa-icon>
-            </div>
-            {{ alertMsg }}
-        </ngb-alert>
-        <div class="row">
-            <div class="col-7 form-group">
-                <input type="text" class="inputPlayer" [(ngModel)]="newPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
-            </div>
-            <div class="col-3 form-group">
-                <div ngbDropdown class="d-inline-block">
-                    <button class="dropDownPostions" ngbDropdownToggle>{{ selectPosition }}</button>
-                    <div ngbDropdownMenu aria-labelledby="newPosition">
-                    <button ngbDropdownItem *ngFor="let p of positions" value="{{ p }}" (click)="selectedPosition(p)">{{ p }}</button>
-                    </div>
-                </div>
-            </div> 
-            <div class="col-2 form-group" (click)="addPlayerToArray(newPlayer, selectPosition)">
-                <button class="button" class="buttonAdd">ADD</button>
-            </div>    
-        </div>
-        <div *ngIf="players.length" class="row">
-            <div class="col colHd">Name</div>
-            <div class="col colHd">Position</div>
-            <div class="col colHd">&nbsp;</div>
-        </div>
-        <div *ngFor="let player of players; let i = index" class="row playerInfo">
-            <div class="col">{{ player.name }}</div>
-            <div class="col">{{ player.position }}</div>
-            <div class="col"><fa-icon icon="trash" (click)="removePlayer(i)"></fa-icon></div>
-        </div>
-        <div *ngIf="players.length" class="row">
-            <div class="col form-group">
-                <button class="button buttonOrange" (click)="startTracking()">START TRACKING</button>
-            </div>
+    <div id="finalScores">
+        <p><span>DATE: {{ timeStamp | date:'medium' }}</span></p>
+        <div *ngFor="let player of players; let i = index" class="row">
+            <p>
+                <span class="name">{{ player.name }}</span>
+                <span class="info">Player Passing Avg: {{ player.avg | number : '1.0-2' }}</span>
+                <span class="info">Player Passing Scores:</span>
+                <span class="info">{{ player.scores | json }}</span>
+            </p>
         </div>
     </div>
-
-    <div *ngIf="beginRound">
-        <ngb-alert *ngIf="alertConfirmDone" [dismissible]="false" type="info" class="alertMsg">
-            <div class="closeAlert" (click)="closeAlert('done')">
-                <fa-icon icon="times"></fa-icon>
-            </div>
-            {{ alertMsg }}
-            <span (click)="isDone(false)">NO</span>
-            <span (click)="isDone(true)">YES</span>
-        </ngb-alert>
-        <div *ngIf="displayFinalOutput" class="finalOutput">
-            <div class="row actions">
-                <div class="col">
-                    FINAL SCORES
-                </div>
-                <div class="col">
-                    <fa-icon icon="copy" (click)="copyFinalScores()"></fa-icon>
-                    <span *ngIf="showCopied" class="copied">COPIED</span>
-                </div>
-            </div>
-            <div id="finalScores">
-                <p><span>DATE: {{ timeStamp | date:'medium' }}</span></p>
-                <div *ngFor="let player of players; let i = index" class="row">
-                    <p>
-                        <span class="name">{{ player.name }}</span>
-                        <span class="info">Player Passing Avg: {{ player.avg | number : '1.0-2' }}</span>
-                        <span class="info">Player Passing Scores:</span>
-                        <span class="info">{{ player.scores | json }}</span>
-                    </p>
-                </div>
-            </div>
-            <div class="row form-group">
-                <div class="col btnLeft">
-                    <button class="button buttonOrange" (click)="createNewRound(true)">DUPLICATE ROUND</button>
-                </div>
-                <div class="col btnRight">
-                    <button class="button buttonOrange" (click)="createNewRound(false)">CREATE NEW ROUND</button>
-                </div>
-            </div>
+    <div class="row form-group">
+        <div class="col btnLeft">
+            <button class="button buttonOrange" (click)="newRound(true)">DUPLICATE ROUND</button>
         </div>
-    
-        <div [ngClass]="displayFinalOutput ? 'scoreInfo' : ''">
-            <div [ngClass]="displayFinalOutput ? 'overlay' : ''"></div>
-            <div class="row" *ngIf="players.length">
-                <div class="col teamAvg">
-                    <h4>Team Avg: {{ teamAvg | number : '1.0-2'}}</h4>
-                </div>
-                <div *ngIf="scores.length" class="col undo">
-                    <button (click)="undoPass()"><fa-icon icon="undo"></fa-icon></button>
-                    <button (click)="doneScoring()"><fa-icon icon="check"></fa-icon></button>
-                </div>
-            </div>
-            <app-player *ngFor="let player of players; let i = index" [player]="player" [updateAvg]="updateAvg" (updateScores)="updateScores($event)"></app-player>
+        <div class="col btnRight">
+            <button class="button buttonOrange" (click)="newRound(false)">NEW ROUND</button>
         </div>
     </div>
+</div>
 
+<div [ngClass]="displayFinalOutput ? 'scoreInfo' : ''">
+    <div [ngClass]="displayFinalOutput ? 'overlay' : ''"></div>
+    <div class="row" *ngIf="players.length">
+        <div class="col teamAvg">
+            <h4>Team Avg: {{ teamAvg | number : '1.0-2'}}</h4>
+        </div>
+        <div *ngIf="scores.length" class="col undo">
+            <button (click)="undoPass()"><fa-icon icon="undo"></fa-icon></button>
+            <button (click)="doneScoring()"><fa-icon icon="check"></fa-icon></button>
+        </div>
+    </div>
+    <app-player *ngFor="let player of players; let i = index" [player]="player" [updateAvg]="updateAvg" (updateScores)="updateScores($event)"></app-player>
 </div>

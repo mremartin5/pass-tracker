@@ -1,58 +1,3 @@
-.navWrapper {
-    margin: 0;
-    padding: 0 15px;
-}
-.colHd {
-    padding: 0 5px;
-    font-size: 14px;
-    font-weight: 200;
-    font-family: 'IndustryBI';
-}
-.playerInfo {
-    padding: 5px;
-    background: #eee;
-    border-radius: 4px;
-    border: 1px solid #666;
-    .col {
-        padding: 0;
-        fa-icon {
-            float: right;
-        }
-    }
-}
-.buttonBlue {
-    height: 30px;
-    color: #fff;
-    background: #001689;
-    border: none;
-}
-.buttonOrange {
-    height: 30px;
-    color: #fff;
-    background: #ff5100;
-    border: none;
-}
-.inputPlayer {
-    padding: 0 0 0 5px;
-    height: 30px;
-    border: 1px solid #666;
-    border-right: none;
-    border-radius: 4px 0 0 4px;
-}
-.dropdown {
-    width: 100%;
-}
-.dropDownPostions {
-    height: 30px;
-    border: 1px solid #666;
-    border-right: none;
-    border-radius: 0;
-}
-.buttonAdd {
-    height: 30px;
-    border: 1px solid #666;
-    border-radius: 0 4px 4px 0;
-}
 .teamAvg {
     padding: 0;
     height: 30px;
@@ -106,12 +51,7 @@
     margin: 0 0 0 5px;
     float: right;
 }
-.alertMsg {
-    span {
-        margin: 0 5px;
-        float: right;
-    }
-}
+
 .actions {
     padding: 0;
         .col {
