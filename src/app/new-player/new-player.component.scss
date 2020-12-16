@@ -2,7 +2,7 @@
     margin: 10px 0;
     font-size: 14px;
 }
-.inputPlayer {
+.inputLeft {
     padding: 0 0 0 5px;
     height: 30px;
     border: 1px solid #666;
@@ -23,6 +23,10 @@
     border: 1px solid #666;
     border-right: none;
     border-radius: 0;
+}
+.dropdownRight {
+    border-right: 1px solid #666;
+    border-radius: 0 4px 4px 0;
 }
 .buttonAdd {
     height: 30px;

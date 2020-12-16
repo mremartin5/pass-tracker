@@ -13,7 +13,10 @@ export class NewPlayerComponent implements OnInit {
 
   timeStamp: number | undefined;
   duplicatePlayers: any[] = [];
-  
+  roundDetails: string = '';
+  evtType: string = 'Type';
+  evtDesc: string = 'Description';
+
   players: Player[] = [];
   newPlayer: string = '';
   selectPosition: string = 'Position';
@@ -29,10 +32,20 @@ export class NewPlayerComponent implements OnInit {
   model: any = new Model();
   positions: any[] = this.model.positions;
   teams: any[] = this.model.teams;
+  eventTypes: any[] = this.model.eventTypes;
+  eventDescription: any[] = this.model.eventDescription;
 
   constructor() { }
 
   ngOnInit(): void { }
+
+  selectedEventType(type: string) {
+    this.evtType = type;
+  }
+
+  selectedEventDescription(type: string) {
+    this.evtDesc = type;
+  }
 
   createNewRound(val: any) {
     if (val === true) {
@@ -65,6 +78,9 @@ export class NewPlayerComponent implements OnInit {
     this.alertMsg = '';
     this.beginRound = false;
     this.alertAddPlayer = false;
+    this.roundDetails = '';
+    this.evtType = 'Type';
+    this.evtDesc = 'Description';
   }
 
   isDone(val: boolean) {

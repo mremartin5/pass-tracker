@@ -8,6 +8,9 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 export class NavComponent implements OnInit {
 
   @Input() players: any;
+  @Input() roundDetails: any;
+  @Input() evtType: any;
+  @Input() evtDesc: any;
   @Input() alertAddPlayer: any;
   @Output() cancelButton = new EventEmitter();
   @Output() createNewRound = new EventEmitter<boolean>();

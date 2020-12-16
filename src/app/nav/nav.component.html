@@ -14,6 +14,7 @@
         </div>
     </div>
     <div id="finalScores">
+        <p><span>{{ roundDetails }} - {{ evtType }} {{ evtDesc }}</span></p>
         <p><span>DATE: {{ timeStamp | date:'medium' }}</span></p>
         <div *ngFor="let player of players; let i = index" class="row">
             <p>

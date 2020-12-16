@@ -1,6 +1,10 @@
 export class Model {
 
     public positions: any[] = [ 'S', 'MB', 'OPP', 'OH', 'DS', 'L' ];
+
+    public eventTypes: any[] = [ 'Match', 'Practice'];
+
+    public eventDescription: any[] = [ 'Set 1', 'Set 2', 'Set 3', 'Set 4', 'Set 5' ];
     
     public teams: any[] = [
         {

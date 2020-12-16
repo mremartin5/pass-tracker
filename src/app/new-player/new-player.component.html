@@ -24,15 +24,35 @@
     </ngb-alert>
     
     <div *ngIf="enterInfo">
-        
         <div class="row">
             <div class="col form-group">
                 <button class="button buttonRed" (click)="cancelButton()">CANCEL</button>
             </div>
         </div>
+        <div class="row">
+            <div class="col-6 form-group">
+                <input type="text" class="inputLeft"  [(ngModel)]="roundDetails" placeholder="Details"/>
+            </div>
+            <div class="col-3 form-group">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="dropDownPostions" ngbDropdownToggle>{{ evtType }}</button>
+                    <div ngbDropdownMenu aria-labelledby="newPosition">
+                    <button ngbDropdownItem *ngFor="let e of eventTypes" value="{{ e }}" (click)="selectedEventType(e)">{{ e }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 form-group">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="dropDownPostions dropdownRight" ngbDropdownToggle>{{ evtDesc }}</button>
+                    <div ngbDropdownMenu aria-labelledby="newPosition">
+                    <button ngbDropdownItem *ngFor="let e of eventDescription" value="{{ e }}" (click)="selectedEventDescription(e)">{{ e }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div *ngIf="customPlayers" class="row">
             <div class="col-7 form-group">
-                <input type="text" class="inputPlayer" [(ngModel)]="newPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
+                <input type="text" class="inputLeft" [(ngModel)]="newPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
             </div>
             <div class="col-3 form-group">
                 <div ngbDropdown class="d-inline-block">
@@ -72,7 +92,7 @@
         </div>
     </div>
     <div *ngIf="beginRound">
-        <app-nav [players]="players" (createNewRound)="createNewRound($event)" (cancelButton)="cancelButton()" [alertAddPlayer]="alertAddPlayer"></app-nav>
+        <app-nav [players]="players" [roundDetails]="roundDetails" [evtType]="evtType" [evtDesc]="evtDesc" (createNewRound)="createNewRound($event)" (cancelButton)="cancelButton()" [alertAddPlayer]="alertAddPlayer"></app-nav>
     </div>
     
 </div>
