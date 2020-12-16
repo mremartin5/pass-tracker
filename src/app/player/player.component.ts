@@ -10,6 +10,7 @@ export class PlayerComponent implements OnInit {
   @Input() player: any;
   @Input() updateAvg: any;
   @Output() updateScores = new EventEmitter<{name: string, score: number}>();
+
   viewDetails: boolean = false;
 
   constructor() { }

@@ -1,5 +1,6 @@
 <div class="row playerRow">
     <div class="col-4 name">
+        [ {{ player.scores.length }} ]
         <span (click)="playerDetails()">
             <fa-icon icon="chevron-right" *ngIf="!viewDetails"></fa-icon>
             <fa-icon icon="chevron-down" *ngIf="viewDetails"></fa-icon>

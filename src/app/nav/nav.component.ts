@@ -80,7 +80,7 @@ export class NavComponent implements OnInit {
     this.showCopied = true;
   }
 
-  newRound(type: boolean) {
+  newRound(type: any) {
     this.createNewRound.emit(type);
   }
 

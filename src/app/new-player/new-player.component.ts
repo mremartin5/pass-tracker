@@ -23,6 +23,8 @@ export class NewPlayerComponent implements OnInit {
   enterInfo: boolean = false;
   beginRound: boolean = false;
   alertAddPlayer: boolean = false;
+  customPlayers: boolean = false;
+  toggleEditPosition: boolean = false;
   
   model: any = new Model();
   positions: any[] = this.model.positions;
@@ -32,25 +34,35 @@ export class NewPlayerComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  createNewRound(team: any) {
-    if (team) {
+  createNewRound(val: any) {
+    if (val === true) {
       this.players = this.duplicatePlayers;
       this.players.forEach( (p) => {
         p.scores = [];
         p.avg = null;
       });
-    } else if (!team) {
+      this.startNewRound = false;
+      this.enterInfo = true;
+      this.customPlayers = false;
+    } else if (val === false) {
       this.players = [];
+      this.startNewRound = false;
+      this.enterInfo = true;
+      this.customPlayers = true;
+    } else if (val === 'brandNew') {
+      this.startNewRound = true;
+      this.enterInfo = false;
+      this.customPlayers = false;
     } else {
-      let selected = this.teams.find( (t) => t.name === team );
+      let selected = this.teams.find( (t) => t.name === val );
       this.players = selected.team;
+      this.startNewRound = false;
+      this.enterInfo = true;
+      this.customPlayers = false;
     }
     this.newPlayer = '';
     this.selectPosition = 'Position';
     this.alertMsg = '';
-
-    this.startNewRound = false;
-    this.enterInfo = true;
     this.beginRound = false;
     this.alertAddPlayer = false;
   }
@@ -77,6 +89,15 @@ export class NewPlayerComponent implements OnInit {
 
   removePlayer(i: number) {
     this.players.splice(i, 1);
+  }
+
+  togglePosition() {
+    this.toggleEditPosition =! this.toggleEditPosition;
+  }
+
+  editPlayerPosition(player: any, position: string) {
+    console.log(player, position);
+    player.position = position;
   }
 
   selectedPosition(p: string) {

@@ -4,7 +4,7 @@
     <span (click)="isDone(true)">YES</span>
 </ngb-alert>
 <div *ngIf="displayFinalOutput" class="finalOutput">
-    <div class="row actions">
+    <div class="row">
         <div class="col">
             FINAL SCORES
         </div>
@@ -29,7 +29,7 @@
             <button class="button buttonOrange" (click)="newRound(true)">DUPLICATE ROUND</button>
         </div>
         <div class="col btnRight">
-            <button class="button buttonOrange" (click)="newRound(false)">NEW ROUND</button>
+            <button class="button buttonOrange" (click)="newRound('brandNew')">NEW ROUND</button>
         </div>
     </div>
 </div>
@@ -41,9 +41,9 @@
             <h4>Team Avg: {{ teamAvg | number : '1.0-2'}}</h4>
         </div>
         <div class="col actions">
-            <button *ngIf="scores.length" (click)="undoPass()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="undo"></fa-icon></button>
-            <button *ngIf="scores.length" (click)="doneScoring()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="check"></fa-icon></button>
             <button (click)="cancelRound()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="times"></fa-icon></button>
+            <button *ngIf="scores.length" (click)="doneScoring()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="check"></fa-icon></button>
+            <button *ngIf="scores.length" (click)="undoPass()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="undo"></fa-icon></button>
         </div>
     </div>
     <app-player *ngFor="let player of players; let i = index" [player]="player" [updateAvg]="updateAvg" (updateScores)="updateScores($event)"></app-player>

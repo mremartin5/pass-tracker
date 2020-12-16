@@ -30,7 +30,7 @@
                 <button class="button buttonRed" (click)="cancelButton()">CANCEL</button>
             </div>
         </div>
-        <div class="row">
+        <div *ngIf="customPlayers" class="row">
             <div class="col-7 form-group">
                 <input type="text" class="inputPlayer" [(ngModel)]="newPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
             </div>
@@ -53,8 +53,17 @@
         </div>
         <div *ngFor="let player of players; let i = index" class="row playerInfo">
             <div class="col-8">{{ player.name }}</div>
-            <div class="col">{{ player.position }}</div>
-            <div class="col"><fa-icon icon="trash" (click)="removePlayer(i)"></fa-icon></div>
+            <div class="col">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="dropDownEdit" ngbDropdownToggle>{{ player.position }}</button>
+                    <div ngbDropdownMenu aria-labelledby="newPosition">
+                    <button ngbDropdownItem *ngFor="let p of positions" value="{{ p }}" (click)="editPlayerPosition(player, p)">{{ p }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col deletePlayer">
+                <fa-icon icon="trash" (click)="removePlayer(i)"></fa-icon>
+            </div>
         </div>
         <div *ngIf="players.length" class="row">
             <div class="col form-group">
