@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Model } from '../model/model';
 
 @Component({
   selector: 'app-new-player',
@@ -10,35 +11,39 @@ export class NewPlayerComponent implements OnInit {
   @Output() emPlayers: EventEmitter<any> = new EventEmitter<any>();
   @Output() emBeginRound: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  positions: any[] = [ 'S', 'MB', 'OH', 'OPP', 'DS', 'L' ];
   timeStamp: number | undefined;
   duplicatePlayers: any[] = [];
   
   players: Player[] = [];
-  
   newPlayer: string = '';
   selectPosition: string = 'Position';
+  selectTeam: string = 'NEW ROUND - SELECT TEAM';
   alertMsg: string = '';
-
   startNewRound: boolean = true;
   enterInfo: boolean = false;
   beginRound: boolean = false;
   alertAddPlayer: boolean = false;
   
+  model: any = new Model();
+  positions: any[] = this.model.positions;
+  teams: any[] = this.model.teams;
 
-  constructor() {}
+  constructor() { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  createNewRound(players: boolean) {
-    if (players) {
+  createNewRound(team: any) {
+    if (team) {
       this.players = this.duplicatePlayers;
       this.players.forEach( (p) => {
         p.scores = [];
         p.avg = null;
       });
-    } else {
+    } else if (!team) {
       this.players = [];
+    } else {
+      let selected = this.teams.find( (t) => t.name === team );
+      this.players = selected.team;
     }
     this.newPlayer = '';
     this.selectPosition = 'Position';
@@ -48,6 +53,21 @@ export class NewPlayerComponent implements OnInit {
     this.enterInfo = true;
     this.beginRound = false;
     this.alertAddPlayer = false;
+  }
+
+  isDone(val: boolean) {
+    if (val) {
+      this.players = [];
+      this.startNewRound = true;
+      this.enterInfo = false;
+      this.beginRound = false;
+    }
+    this.alertAddPlayer = false;
+  }
+  
+  cancelButton() {
+    this.alertAddPlayer = true;
+    this.alertMsg = 'confirm cancel?';
   }
 
   addPlayer() {
@@ -65,10 +85,6 @@ export class NewPlayerComponent implements OnInit {
       this.alertMsg = '';
       this.alertAddPlayer = false;
     }
-  }
-
-  closeAlert(type: string) {
-    this.alertAddPlayer = false;
   }
 
   onFocusPlayerInput() {

@@ -8,6 +8,8 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 export class NavComponent implements OnInit {
 
   @Input() players: any;
+  @Input() alertAddPlayer: any;
+  @Output() cancelButton = new EventEmitter();
   @Output() createNewRound = new EventEmitter<boolean>();
 
   scores: Score[] = [];
@@ -22,10 +24,6 @@ export class NavComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  closeAlert(type: string) {
-    this.alertConfirmDone = false;
-  }
 
   updateAvg(scores: any) {
     let length = scores.length;
@@ -84,6 +82,10 @@ export class NavComponent implements OnInit {
 
   newRound(type: boolean) {
     this.createNewRound.emit(type);
+  }
+
+  cancelRound() {
+    this.cancelButton.emit();
   }
   
 }

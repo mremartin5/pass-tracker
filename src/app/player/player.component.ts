@@ -14,8 +14,7 @@ export class PlayerComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   update(player: string, score: number) {
     this.player.scores.push(score);

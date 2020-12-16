@@ -61,9 +61,23 @@ body {
     background: #ff5100;
     border: none;
 }
+.buttonRed {
+    height: 30px;
+    color: #7b1534;
+    background: #fff;
+    border: 1px solid #7b1534;
+}
 .alertMsg {
     span {
         margin: 0 5px;
         float: right;
     }
+}
+.alert{
+    margin: 10px 0;
+    padding: 5px;
+    height: 30px;
+    font-size: 14px;
+    font-family: 'IndustryBI';
+    text-transform: uppercase;
 }

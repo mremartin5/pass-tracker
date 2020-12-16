@@ -1,3 +1,7 @@
+.introTxt {
+    margin: 10px 0;
+    font-size: 14px;
+}
 .inputPlayer {
     padding: 0 0 0 5px;
     height: 30px;
@@ -30,7 +34,7 @@
     background: #eee;
     border-radius: 4px;
     border: 1px solid #666;
-    .col {
+    .col, .col-8 {
         padding: 0;
         fa-icon {
             float: right;

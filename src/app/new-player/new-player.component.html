@@ -1,16 +1,35 @@
 <div class="navWrapper">
-    <div *ngIf="startNewRound" class="row">
-        <div class="col form-group">
-            <button class="button buttonBlue" (click)="createNewRound(false)">NEW ROUND</button>
+    <div *ngIf="startNewRound">
+        <div class="row">
+            <div class="col form-group">
+                <button class="button buttonBlue" (click)="createNewRound(false)">NEW ROUND - CUSTOM</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col form-group">
+                <div ngbDropdown class="d-inline-block">
+                    <button class="buttonBlue" ngbDropdownToggle>{{ selectTeam }}</button>
+                    <div ngbDropdownMenu aria-labelledby="selectTeam">
+                    <button ngbDropdownItem *ngFor="let t of teams" value="{{ t.name }}" (click)="createNewRound(t.name)">{{ t.name }}</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <ngb-alert *ngIf="alertAddPlayer" [dismissible]="false" type="danger" class="alertMsg">
+        {{ alertMsg }}
+        <span (click)="isDone(false)">NO</span>
+        <span (click)="isDone(true)">YES</span>
+    </ngb-alert>
+    
     <div *ngIf="enterInfo">
-        <ngb-alert *ngIf="alertAddPlayer" [dismissible]="false" type="danger" class="alertMsg">
-            <div class="closeAlert" (click)="closeAlert('player')">
-                <fa-icon icon="times"></fa-icon>
+        
+        <div class="row">
+            <div class="col form-group">
+                <button class="button buttonRed" (click)="cancelButton()">CANCEL</button>
             </div>
-            {{ alertMsg }}
-        </ngb-alert>
+        </div>
         <div class="row">
             <div class="col-7 form-group">
                 <input type="text" class="inputPlayer" [(ngModel)]="newPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
@@ -28,12 +47,12 @@
             </div>    
         </div>
         <div *ngIf="players.length" class="row">
-            <div class="col colHd">Name</div>
+            <div class="col-8 colHd">Name</div>
             <div class="col colHd">Position</div>
             <div class="col colHd">&nbsp;</div>
         </div>
         <div *ngFor="let player of players; let i = index" class="row playerInfo">
-            <div class="col">{{ player.name }}</div>
+            <div class="col-8">{{ player.name }}</div>
             <div class="col">{{ player.position }}</div>
             <div class="col"><fa-icon icon="trash" (click)="removePlayer(i)"></fa-icon></div>
         </div>
@@ -43,5 +62,8 @@
             </div>
         </div>
     </div>
-    <app-nav *ngIf="beginRound" [players]="players" (createNewRound)="createNewRound($event)"></app-nav>
+    <div *ngIf="beginRound">
+        <app-nav [players]="players" (createNewRound)="createNewRound($event)" (cancelButton)="cancelButton()" [alertAddPlayer]="alertAddPlayer"></app-nav>
+    </div>
+    
 </div>

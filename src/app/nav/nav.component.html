@@ -1,7 +1,4 @@
 <ngb-alert *ngIf="alertConfirmDone" [dismissible]="false" type="info" class="alertMsg">
-    <div class="closeAlert" (click)="closeAlert('done')">
-        <fa-icon icon="times"></fa-icon>
-    </div>
     {{ alertMsg }}
     <span (click)="isDone(false)">NO</span>
     <span (click)="isDone(true)">YES</span>
@@ -43,9 +40,10 @@
         <div class="col teamAvg">
             <h4>Team Avg: {{ teamAvg | number : '1.0-2'}}</h4>
         </div>
-        <div *ngIf="scores.length" class="col undo">
-            <button (click)="undoPass()"><fa-icon icon="undo"></fa-icon></button>
-            <button (click)="doneScoring()"><fa-icon icon="check"></fa-icon></button>
+        <div class="col actions">
+            <button *ngIf="scores.length" (click)="undoPass()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="undo"></fa-icon></button>
+            <button *ngIf="scores.length" (click)="doneScoring()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="check"></fa-icon></button>
+            <button (click)="cancelRound()" [disabled]="alertConfirmDone || alertAddPlayer"><fa-icon icon="times"></fa-icon></button>
         </div>
     </div>
     <app-player *ngFor="let player of players; let i = index" [player]="player" [updateAvg]="updateAvg" (updateScores)="updateScores($event)"></app-player>
