@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Model } from '../model/model';
 
 @Component({
@@ -8,17 +8,17 @@ import { Model } from '../model/model';
 })
 export class NewPlayerComponent implements OnInit {
 
-  @Output() emPlayers: EventEmitter<any> = new EventEmitter<any>();
-  @Output() emBeginRound: EventEmitter<boolean> = new EventEmitter<boolean>();
-
   timeStamp: number | undefined;
   duplicatePlayers: any[] = [];
-  roundDetails: string = '';
+  
+  round: Round[] = [];
+  evtLocation: string = '';
   evtType: string = 'Type';
-  evtDesc: string = 'Description';
+  evtDesc: string = 'Desc';
+
 
   players: Player[] = [];
-  newPlayer: string = '';
+  customPlayer: string = '';
   selectPosition: string = 'Position';
   selectTeam: string = 'NEW ROUND - SELECT TEAM';
   alertMsg: string = '';
@@ -28,6 +28,7 @@ export class NewPlayerComponent implements OnInit {
   alertAddPlayer: boolean = false;
   customPlayers: boolean = false;
   toggleEditPosition: boolean = false;
+  alertAddPlayerMsg: boolean = false;
   
   model: any = new Model();
   positions: any[] = this.model.positions;
@@ -47,48 +48,53 @@ export class NewPlayerComponent implements OnInit {
     this.evtDesc = type;
   }
 
+  enterEventInfo() {
+    this.startNewRound = false;
+    this.enterInfo = true;
+    this.evtLocation = '';
+    this.evtType = 'Type';
+    this.evtDesc = 'Desc';
+  }
+
+  startOver() {
+    this.players = [];
+    this.startNewRound = true;
+    this.enterInfo = false;
+  }
+
   createNewRound(val: any) {
-    if (val === true) {
+    if (val === 'customRound') {
+      this.customPlayers = true;
+      this.enterEventInfo();
+    }
+    else if (val === 'duplicateRound') {
       this.players = this.duplicatePlayers;
       this.players.forEach( (p) => {
         p.scores = [];
-        p.avg = null;
+        p.avg = undefined;
       });
-      this.startNewRound = false;
-      this.enterInfo = true;
       this.customPlayers = false;
-    } else if (val === false) {
-      this.players = [];
-      this.startNewRound = false;
       this.enterInfo = true;
-      this.customPlayers = true;
-    } else if (val === 'brandNew') {
-      this.startNewRound = true;
-      this.enterInfo = false;
-      this.customPlayers = false;
-    } else {
+    }
+    else if (val === 'startOver') {      
+      this.startOver();
+    }
+    else { // using team data
       let selected = this.teams.find( (t) => t.name === val );
       this.players = selected.team;
-      this.startNewRound = false;
-      this.enterInfo = true;
       this.customPlayers = false;
+      this.enterEventInfo();
     }
-    this.newPlayer = '';
+    this.customPlayer = '';
     this.selectPosition = 'Position';
     this.alertMsg = '';
-    this.beginRound = false;
     this.alertAddPlayer = false;
-    this.roundDetails = '';
-    this.evtType = 'Type';
-    this.evtDesc = 'Description';
+    this.beginRound = false;
   }
 
   isDone(val: boolean) {
     if (val) {
-      this.players = [];
-      this.startNewRound = true;
-      this.enterInfo = false;
-      this.beginRound = false;
+      this.startOver();
     }
     this.alertAddPlayer = false;
   }
@@ -99,7 +105,7 @@ export class NewPlayerComponent implements OnInit {
   }
 
   addPlayer() {
-    this.newPlayer = '';
+    this.customPlayer = '';
     this.selectPosition = 'Position';
   }
 
@@ -121,27 +127,28 @@ export class NewPlayerComponent implements OnInit {
     if ( p !== 'Position' ) {
       this.alertMsg = '';
       this.alertAddPlayer = false;
+      this.alertAddPlayerMsg = false;
     }
   }
 
   onFocusPlayerInput() {
     this.alertMsg = '';
     this.alertAddPlayer = false;
+    this.alertAddPlayerMsg = false;
   }
 
   addPlayerToArray(name: string, position: string) {
-    if ( name === '' || !name && position === 'Position' ) {
-      this.alertMsg = 'please add player name and position';
-      this.alertAddPlayer = true;
-    } else if ( name === '' || !name ) {
+    if ( name === '' || !name ) {
       this.alertMsg = 'please add player name';
       this.alertAddPlayer = true;
+      this.alertAddPlayerMsg = true;
     } else if ( position === 'Position' ) {
       this.alertMsg = 'please select position';
       this.alertAddPlayer = true;
+      this.alertAddPlayerMsg = true;
     } else {
-      this.players.push( { 'name': name, 'position': position, 'scores': [], 'avg': null } );
-      this.newPlayer = '';
+      this.players.push( { 'name': name, 'position': position, 'scores': [], 'avg': undefined } );
+      this.customPlayer = '';
       this.selectPosition = 'Position';
     }
   }
@@ -150,8 +157,6 @@ export class NewPlayerComponent implements OnInit {
     this.enterInfo = false;
     this.beginRound = true;
     this.duplicatePlayers = [...this.players];
-    this.emPlayers.emit(this.players);
-    this.emBeginRound.emit(true);
   }
 
 }
@@ -160,6 +165,12 @@ export interface Player {
   name: string;
   position: string;
   scores: number[];
-  avg: any
+  avg?: number;
 }
 
+export interface Round {
+  evtLocation: string;
+  evtType: string;
+  evtDesc: string;
+  players: any[];
+}

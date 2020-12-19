@@ -14,8 +14,17 @@
         </div>
     </div>
     <div id="finalScores">
-        <p><span>{{ roundDetails }} - {{ evtType }} {{ evtDesc }}</span></p>
-        <p><span>DATE: {{ timeStamp | date:'medium' }}</span></p>
+        <div *ngIf="evtLocation" class="row">
+            <ng-container>{{ evtLocation }}</ng-container>
+            <ng-container *ngIf="evtType !== 'Type'">&nbsp;-&nbsp;{{ evtType }}</ng-container>
+            <ng-container *ngIf="evtDesc !== 'Desc'">,&nbsp;{{ evtDesc }}</ng-container>
+        </div>
+        <div class="row">
+            DATE: {{ timeStamp | date:'medium' }}
+        </div>
+        <div class="row">
+            TEAM AVG: {{ teamAvg | number : '1.0-2'}}
+        </div>
         <div *ngFor="let player of players; let i = index" class="row">
             <p>
                 <span class="name">{{ player.name }}</span>
@@ -27,10 +36,10 @@
     </div>
     <div class="row form-group">
         <div class="col btnLeft">
-            <button class="button buttonOrange" (click)="newRound(true)">DUPLICATE ROUND</button>
+            <button class="button buttonOrange" (click)="newRound('duplicateRound')">DUPLICATE ROUND</button>
         </div>
         <div class="col btnRight">
-            <button class="button buttonOrange" (click)="newRound('brandNew')">NEW ROUND</button>
+            <button class="button buttonOrange" (click)="newRound('startOver')">NEW ROUND</button>
         </div>
     </div>
 </div>

@@ -2,7 +2,7 @@
     <div *ngIf="startNewRound">
         <div class="row">
             <div class="col form-group">
-                <button class="button buttonBlue" (click)="createNewRound(false)">NEW ROUND - CUSTOM</button>
+                <button class="button buttonBlue" (click)="createNewRound('customRound')">NEW ROUND - CUSTOM</button>
             </div>
         </div>
         <div class="row">
@@ -19,8 +19,14 @@
 
     <ngb-alert *ngIf="alertAddPlayer" [dismissible]="false" type="danger" class="alertMsg">
         {{ alertMsg }}
-        <span (click)="isDone(false)">NO</span>
-        <span (click)="isDone(true)">YES</span>
+        <div *ngIf="alertAddPlayerMsg" class="closeAlert" (click)="isDone(false)">
+            <fa-icon icon="times"></fa-icon>
+        </div>
+        <ng-container *ngIf="!alertAddPlayerMsg">
+            <span (click)="isDone(false)">NO</span>
+            <span (click)="isDone(true)">YES</span>
+        </ng-container>
+        
     </ngb-alert>
     
     <div *ngIf="enterInfo">
@@ -31,7 +37,7 @@
         </div>
         <div class="row">
             <div class="col-6 form-group">
-                <input type="text" class="inputLeft"  [(ngModel)]="roundDetails" placeholder="Details"/>
+                <input type="text" class="inputLeft"  [(ngModel)]="evtLocation" placeholder="Enter Location"/>
             </div>
             <div class="col-3 form-group">
                 <div ngbDropdown class="d-inline-block">
@@ -52,7 +58,7 @@
         </div>
         <div *ngIf="customPlayers" class="row">
             <div class="col-7 form-group">
-                <input type="text" class="inputLeft" [(ngModel)]="newPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
+                <input type="text" class="inputLeft" [(ngModel)]="customPlayer" (focus)="onFocusPlayerInput()" placeholder="Type In Player"/>
             </div>
             <div class="col-3 form-group">
                 <div ngbDropdown class="d-inline-block">
@@ -62,7 +68,7 @@
                     </div>
                 </div>
             </div> 
-            <div class="col-2 form-group" (click)="addPlayerToArray(newPlayer, selectPosition)">
+            <div class="col-2 form-group" (click)="addPlayerToArray(customPlayer, selectPosition)">
                 <button class="button" class="buttonAdd">ADD</button>
             </div>    
         </div>
@@ -92,7 +98,7 @@
         </div>
     </div>
     <div *ngIf="beginRound">
-        <app-nav [players]="players" [roundDetails]="roundDetails" [evtType]="evtType" [evtDesc]="evtDesc" (createNewRound)="createNewRound($event)" (cancelButton)="cancelButton()" [alertAddPlayer]="alertAddPlayer"></app-nav>
+        <app-nav [players]="players" [evtLocation]="evtLocation" [evtType]="evtType" [evtDesc]="evtDesc" (createNewRound)="createNewRound($event)" (cancelButton)="cancelButton()" [alertAddPlayer]="alertAddPlayer"></app-nav>
     </div>
     
 </div>

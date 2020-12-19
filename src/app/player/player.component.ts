@@ -27,4 +27,17 @@ export class PlayerComponent implements OnInit {
     this.viewDetails =! this.viewDetails;
   }
 
+  playerHeat(val: number) {
+    if ( val <= 1.25 ) {
+      return 'alert-success';
+    }
+    if ( val > 1.25 && val < 2 ) {
+      return 'alert-warning';
+    }
+    if ( val >= 2 && val <= 3 ) {
+      return 'alert-danger';
+    }
+    return 'playerRowBkgd';
+  }
+
 }

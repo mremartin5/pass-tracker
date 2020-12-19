@@ -8,7 +8,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 export class NavComponent implements OnInit {
 
   @Input() players: any;
-  @Input() roundDetails: any;
+  @Input() evtLocation: any;
   @Input() evtType: any;
   @Input() evtDesc: any;
   @Input() alertAddPlayer: any;

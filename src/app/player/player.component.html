@@ -1,4 +1,4 @@
-<div class="row playerRow">
+<div class="row playerRow" [ngClass]="playerHeat(player.avg)">
     <div class="col-4 name">
         [ {{ player.scores.length }} ]
         <span (click)="playerDetails()">
